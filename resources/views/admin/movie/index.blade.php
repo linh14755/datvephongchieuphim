@@ -11,21 +11,6 @@
 @section('js')
     <script src="{{asset('js/sweetalert2.js')}}"></script>
     <script src="{{asset('admins/main.js')}}"></script>
-    <script>
-        $('#myInputSearch').on('keyup', function (e) {
-            var txt = $('#myInputSearch').val();
-            $.ajax({
-                type: "GET",
-                cache: false,
-                url: "{{route('movie.search')}}",
-                data: {txt: txt},
-                success: function (html) {
-                    $('#myTable').html(html);
-                    console.log(html);
-                }
-            });
-        })
-    </script>
 @endsection
 
 
@@ -44,13 +29,13 @@
                         <div class="row">
                             <div class="input-group p-2 col-md-11">
                                 <div class="form-outline col-md-4">
-                                    <input type="search" id="myInputSearch" class="form-control"
+                                    <input type="search" id="myInput" onkeyup="myFunction()" class="form-control"
                                            placeholder="Tìm kiếm"/>
                                 </div>
                             </div>
 
-                            <a href="{{route('movie.create')}}"
-                               class="btn btn-outline-success m-2 float-right">Add</a>
+                                <a href="{{route('movie.create')}}"
+                                   class="btn btn-outline-success m-2 float-right">Add</a>
 
                         </div>
                     </div>
@@ -74,26 +59,27 @@
                             <tr>
                                 <th scope="row">{{$value->id}}</th>
                                 <th scope="row">{{$value->movie_name}}</th>
-                                <th scope="row">{{$value->type_name}}</th>
-                                <th scope="row">{{$value->format_name}}</th>
+                                <th scope="row">{{optional($value->typeOfMovie)->type_name}}</th>
+                                <th scope="row">{{optional($value->movieFormat)->format_name}}</th>
                                 <th scope="row">{{$value->producer}}</th>
                                 <th scope="row"><img style="width: 100%;height: auto;max-width: 150px;"
-                                                     src="{{$value->feature_image_path}}"
-                                                     class="img-fluid img-thumbnail"></th>
+                                                     src="{{$value->feature_image_path}}" class="img-fluid img-thumbnail"></th>
                                 <td>
 
                                     <a href="{{route('movie.edit',['id'=>$value->id])}}"
                                        class="btn btn-default">Edit</a>
 
 
-                                    <a href="javascript:void(0)"
-                                       data-url="{{route('movie.delete',['id'=>$value->id])}}"
-                                       class="btn btn-outline-danger action_delete">Delete</a>
+                                        <a href="javascript:void(0)"
+                                           data-url="{{route('movie.delete',['id'=>$value->id])}}"
+                                           class="btn btn-outline-danger action_delete">Delete</a>
 
                                 </td>
                             </tr>
                         @endforeach
-
+                        <td>
+                            {{$movie->links()}}
+                        </td>
 
                         </tbody>
                     </table>

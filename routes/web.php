@@ -147,11 +147,6 @@ Route::prefix('admin')->group(function () {
             'uses' => 'AdminMovieController@delete',
         ]);
 
-        Route::get('/search', [
-            'as' => 'movie.search',
-            'uses' => 'AdminMovieController@search',
-        ]);
-
     });
 
     //Customers

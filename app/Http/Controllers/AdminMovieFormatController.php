@@ -21,8 +21,7 @@ class AdminMovieFormatController extends Controller
 
     public function index()
     {
-//        $movieFormat = $this->movieFormat->latest()->paginate(20);
-        $movieFormat = DB::select("select * from movie_formats where deleted_at is null");
+        $movieFormat = $this->movieFormat->latest()->paginate(20);
         return view('admin.movieformat.index', compact('movieFormat'));
     }
 
@@ -35,9 +34,9 @@ class AdminMovieFormatController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            DB::select("insert into movie_formats(format_name) values('" . $request->format_name . "');");
-
+            $this->movieFormat->create([
+                'format_name' => $request->format_name
+            ]);
             DB::commit();
             return redirect()->route('movieformat.index');
         } catch (\Exception $exception) {
@@ -49,7 +48,7 @@ class AdminMovieFormatController extends Controller
 
     public function edit($id)
     {
-        $movieFormat = DB::select("select * from movie_formats where id=" . $id . "");
+        $movieFormat = $this->movieFormat->find($id);
         return view('admin.movieformat.edit', compact('movieFormat'));
     }
 
@@ -57,9 +56,9 @@ class AdminMovieFormatController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            DB::select("update movie_formats set format_name='" . $request->format_name . "' where id='" . $id . "'");
-
+            $this->movieFormat->find($id)->update([
+                'format_name' => $request->format_name
+            ]);
             DB::commit();
             return redirect()->route('movieformat.index');
         } catch (\Exception $exception) {

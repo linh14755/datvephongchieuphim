@@ -56,6 +56,9 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <td>
+                                {{$cinema->links()}}
+                            </td>
 
                             </tbody>
                         </table>

@@ -54,6 +54,10 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <td>
+                                {{$movieFormat->links()}}
+                            </td>
+
                             </tbody>
                         </table>
                     </div>

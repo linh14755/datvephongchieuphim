@@ -37,9 +37,10 @@
         <!-- Content Header (Page header) -->
     @include('partial.content-header',['name'=>'Movie','key' =>'Edit'])
     <!-- /.content-header -->
+
         <!-- Main content -->
         <div class="content">
-            <form action="{{route('movie.update',['id'=>$movie[0]->id])}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('movie.update',['id'=>$movie->id])}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="container-fluid">
                     <div class="row">
@@ -52,7 +53,7 @@
                                     class="form-control"
                                     placeholder="Nhập tên phim"
                                     name="movie_name"
-                                    value="{{$movie[0]->movie_name}}">
+                                    value="{{$movie->movie_name}}">
                             </div>
 
                             <div class="form-group">
@@ -62,15 +63,15 @@
                                     class="form-control"
                                     placeholder="Nhập tên nhà sản xuất"
                                     name="producer"
-                                    value="{{$movie[0]->producer}}">
+                                    value="{{$movie->producer}}">
                             </div>
                             <div class="form-group">
                                 <label>Năm sản xuất</label>
                                 <select class="form-control" name="publishing_year">
                                     <?php
-                                    for ($year = (int)date('Y'); 1990 <= $year; $year--): ?>
+                                    for ($year = (int)date('Y'); 1900 <= $year; $year--): ?>
                                     <option
-                                        {{ ($movie[0]->publishing_year == $year) ?'selected':'' }} value="<?=$year;?>"><?=$year;?></option>
+                                        {{ ($movie->publishing_year == $year) ?'selected':'' }} value="<?=$year;?>"><?=$year;?></option>
                                     <?php endfor; ?>
                                 </select>
                             </div>
@@ -89,7 +90,7 @@
                                     </div>
                                 </div>
 
-                                <img class="img-fluid img-thumbnail" src="{{$movie[0]->feature_image_path}}"
+                                <img class="img-fluid img-thumbnail" src="{{$movie->feature_image_path}}"
                                      style="width: 100%;height: auto;max-width: 150px;">
                             </div>
 
@@ -108,7 +109,7 @@
 
 
                                 <div class="row">
-                                    @foreach($images as $imageItem)
+                                    @foreach($movie->images as $imageItem)
                                         <img class="img-fluid img-thumbnail" src="{{$imageItem->image_path}}"
                                              style="width: 100%;height: auto;max-width: 100px;">
                                     @endforeach
@@ -122,7 +123,7 @@
                                     <option value="">Chọn loại phim</option>
                                     @foreach($typeOfMovie as $typeOfMovieItem)
                                         <option
-                                            {{$movie[0]->typeofmovie_id == $typeOfMovieItem->id ? 'selected' : ''}}
+                                            {{optional($movie->typeOfMovie)->id == $typeOfMovieItem->id ? 'selected' : ''}}
                                             value="{{$typeOfMovieItem->id}}">{{$typeOfMovieItem->type_name}}</option>
                                     @endforeach
                                 </select>
@@ -136,7 +137,7 @@
                                     <option value="">Chọn dạng phim</option>
                                     @foreach($movieFormat as $movieFormatItem)
                                         <option
-                                            {{$movie[0]->movie_format_id == $movieFormatItem->id ? 'selected' : ''}}
+                                            {{optional($movie->movieFormat)->id == $movieFormatItem->id ? 'selected' : ''}}
                                             value="{{$movieFormatItem->id}}">{{$movieFormatItem->format_name}}</option>
                                     @endforeach
                                 </select>
@@ -155,7 +156,7 @@
                                 <!-- /.card-header -->
                                 <div class="card-body">
                                     <textarea id="summernote" style="display: none;"
-                                              name="contents">{!! $movie[0]->content !!}</textarea>
+                                              name="contents">{!! $movie->content !!}</textarea>
                                 </div>
                                 <div class="card-footer">
 

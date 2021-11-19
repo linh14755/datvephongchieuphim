@@ -17,19 +17,19 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                        <form action="{{route('cinema.update',['id'=>$cinema[0]->id])}}" method="post"
+                        <form action="{{route('cinema.update',['id'=>$cinema->id])}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label>Tên phòng</label>
                                 <input type="text" class="form-control"
-                                       placeholder="Nhập tên phòng" name="cinema_name" value="{{$cinema[0]->cinema_name}}">
+                                       placeholder="Nhập tên phòng" name="cinema_name" value="{{$cinema->cinema_name}}">
                             </div>
 
                             <div class="form-group">
                                 <label>Số ghế</label>
                                 <input type="number" class="form-control"
-                                       placeholder="Nhập số ghế" name="chair_number" value="{{$cinema[0]->chair_number}}">
+                                       placeholder="Nhập số ghế" name="chair_number" value="{{$cinema->chair_number}}">
                             </div>
                             <button type="submit" class="btn btn-primary mt-4">Submit</button>
                         </form>

@@ -21,7 +21,7 @@ class AdminCinemaController extends Controller
 
     public function index()
     {
-        $cinema = DB::select("select * from cinemas where deleted_at is null");
+        $cinema = $this->cinema->latest()->paginate(20);
         return view('admin.cinema.index', compact('cinema'));
     }
 
@@ -34,9 +34,10 @@ class AdminCinemaController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            DB::select("insert into cinemas(cinema_name, chair_number) values('" . $request->cinema_name . "','" . $request->chair_number . "')");
-
+            $this->cinema->create([
+                'cinema_name' => $request->cinema_name,
+                'chair_number' => $request->chair_number,
+            ]);
             DB::commit();
             return redirect()->route('cinema.index');
         } catch (\Exception $exception) {
@@ -48,9 +49,7 @@ class AdminCinemaController extends Controller
 
     public function edit($id)
     {
-//        $cinema = $this->cinema->find($id);
-        $cinema = DB::select("select * from cinemas where id=" . $id . "");
-
+        $cinema = $this->cinema->find($id);
         return view('admin.cinema.edit', compact('cinema'));
     }
 
@@ -58,9 +57,10 @@ class AdminCinemaController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            DB::select("update cinemas set cinema_name='" . $request->cinema_name . "', chair_number='" . $request->chair_number . "' where id=" . $id . "");
-
+            $this->cinema->find($id)->update([
+                'cinema_name' => $request->cinema_name,
+                'chair_number' => $request->chair_number,
+            ]);
             DB::commit();
             return redirect()->route('cinema.index');
         } catch (\Exception $exception) {

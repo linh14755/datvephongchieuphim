@@ -21,8 +21,7 @@ class AdminTypeOfMovieController extends Controller
 
     public function index()
     {
-//        $typeOfMovie = $this->typeOfMovie->latest()->paginate(20);
-        $typeOfMovie = DB::select("select * from type_of_movies where deleted_at is null");
+        $typeOfMovie = $this->typeOfMovie->latest()->paginate(20);
         return view('admin.typeofmovie.index', compact('typeOfMovie'));
     }
 
@@ -35,9 +34,9 @@ class AdminTypeOfMovieController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            DB::select("insert into type_of_movies(type_name) values('" . $request->name . "')");
-
+            $this->typeOfMovie->create([
+                'type_name' => $request->name
+            ]);
             DB::commit();
             return redirect()->route('typeofmovie.index');
         } catch (\Exception $exception) {
@@ -49,7 +48,7 @@ class AdminTypeOfMovieController extends Controller
 
     public function edit($id)
     {
-        $typeOfMovie = DB::select("select * from type_of_movies where id=" . $id . "");
+        $typeOfMovie = $this->typeOfMovie->find($id);
         return view('admin.typeofmovie.edit', compact('typeOfMovie'));
     }
 
@@ -57,9 +56,9 @@ class AdminTypeOfMovieController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            DB::select("update type_of_movies set type_name='" . $request->name . "' where id=" . $id . "");
-
+            $this->typeOfMovie->find($id)->update([
+                'type_name' => $request->name
+            ]);
             DB::commit();
             return redirect()->route('typeofmovie.index');
         } catch (\Exception $exception) {

@@ -25,13 +25,13 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                        <form action="{{route('movieformat.update',['id'=>$movieFormat[0]->id])}}" method="post"
+                        <form action="{{route('movieformat.update',['id'=>$movieFormat->id])}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label>Tên dạng phim</label>
                                 <input type="text" class="form-control "
-                                       placeholder="Nhập tên dạng phim" name="format_name" value="{{$movieFormat[0]->format_name}}">
+                                       placeholder="Nhập tên dạng phim" name="format_name" value="{{$movieFormat->format_name}}">
                             </div>
                             <button type="submit" class="btn btn-primary mt-4">Submit</button>
                         </form>
